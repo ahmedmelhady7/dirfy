@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "Create directory/file structures from ASCII/Unicode tree diagrams"
   spec.authors       = ["Your Name"]
   spec.email         = ["you@example.com"]
-  spec.files = Dir.glob("lib/**/*.rb") + ["bin/dirfy", "Rakefile", "README.md" /*, "LICENSE"*/]
+  spec.files         = Dir.glob("lib/**/*.rb") + ["bin/dirfy", "Rakefile", "README.md"]
   spec.executables   = ["dirfy"]
   spec.require_paths = ["lib"]
   spec.homepage      = "https://github.com/ahmedmelhady7/dirfy"
