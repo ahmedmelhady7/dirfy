@@ -42,8 +42,12 @@ module Dirfy
 
       # Second pass: infer directories by depth
       items.each_with_index.map do |path, i|
-        is_dir = names[i].end_with?("/") || (i < depths.size - 1 && depths[i+1] > depths[i])
+        is_dir = directory?(names[i], i, depths)
         is_dir ? (path.end_with?("/") ? path : "#{path}/") : path
+      private
+  
+      def directory?(name, index, depths)
+        name.end_with?("/") || (index < depths.size - 1 && depths[index + 1] > depths[index])
       end
     end
   end
