@@ -13,6 +13,8 @@ module Dirfy
     def parse(lines)
       stack = []
       items = []
+      depths = []
+      names = []
 
       lines.each do |raw|
         line = raw.rstrip
@@ -31,14 +33,18 @@ module Dirfy
 
         stack[depth] = name
         stack = stack[0..depth]
-
-        # build full path
+        # build full path (no trailing slash yet)
         path = stack.map { |c| c.chomp("/") }.join("/")
-        path << "/" if name.end_with?("/")
+        depths << depth
+        names << name
         items << path
       end
 
-      items
+      # Second pass: infer directories by depth
+      items.each_with_index.map do |path, i|
+        is_dir = names[i].end_with?("/") || (i < depths.size - 1 && depths[i+1] > depths[i])
+        is_dir ? (path.end_with?("/") ? path : "#{path}/") : path
+      end
     end
   end
 end
