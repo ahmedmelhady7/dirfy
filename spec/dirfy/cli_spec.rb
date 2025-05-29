@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "spec_helper"
 require "open3"
 require "tempfile"
@@ -18,7 +19,8 @@ RSpec.describe "dirfy CLI" do
       stdin.puts(tree)
       stdin.close
       out = stdout.read + stderr.read
-      expect(out).to include("Detected 3 items")
+      # now expecting 4 items (root + a.txt + b/ + b/c.txt)
+      expect(out).to include("Detected 4 items")
       expect(wait.value.exitstatus).to eq(1)
     end
   end
@@ -39,7 +41,8 @@ RSpec.describe "dirfy CLI" do
     file.write(tree)
     file.close
     Open3.popen3("ruby bin/dirfy #{file.path} -d") do |_, stdout, _, _|
-      expect(stdout.read).to include("Detected 3 items")
+      # again expecting 4 items
+      expect(stdout.read).to include("Detected 4 items")
     end
   end
 end

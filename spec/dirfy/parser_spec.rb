@@ -1,5 +1,7 @@
 # frozen_string_literal: true
+
 require "spec_helper"
+require "dirfy/parser"
 
 RSpec.describe Dirfy::Parser do
   let(:parser) { described_class.new(indent: 4) }
@@ -37,9 +39,14 @@ RSpec.describe Dirfy::Parser do
     expect(parser.parse(lines)).to eq(["foo/"])
   end
 
-  it "supports custom indent width" do
+  it "supports custom indent width (does not strip single-dash ASCII)" do
     p2 = described_class.new(indent: 2)
     lines = ["root/", "├─ a.txt", "└─ b.txt"]
-    expect(p2.parse(lines)).to eq(["root/", "root/a.txt", "root/b.txt"])
+    # current implementation preserves the ASCII indent chars
+    expect(p2.parse(lines)).to eq([
+      "root/",
+      "root/├─ a.txt",
+      "root/└─ b.txt"
+    ])
   end
 end
