@@ -2,9 +2,9 @@ name: Ruby CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build-and-test:
@@ -19,9 +19,8 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-version: 2.4.13   # ensure Bundler 2.x works on 2.7
+          bundler: 2.4.13 # Pin to bundler 2.4.13 works on 2.7
           bundler-cache: true
-
 
       - name: Install dependencies
         run: bundle install --jobs 4 --retry 3
