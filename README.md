@@ -1,10 +1,10 @@
 # Dirfy
 
-[![Build Status](https://github.com/ahmedmelhady7/dirfy/actions/workflows/ruby.yml/badge.svg)](https://github.com/ahmedmelhady7/dirfy/actions)  
-[![Gem Version](https://badge.fury.io/rb/dirfy.svg)](https://badge.fury.io/rb/dirfy)  
-[![License](https://img.shields.io/github/license/ahmedmelhady7/dirfy.svg)](https://github.com/ahmedmelhady7/dirfy/blob/main/LICENSE)  
-[![Ruby ≥2.6](https://img.shields.io/badge/ruby-%3E%3D2.6-blue.svg)](https://www.ruby-lang.org/)  
-[![Issues](https://img.shields.io/github/issues/ahmedmelhady7/dirfy.svg)](https://github.com/ahmedmelhady7/dirfy/issues)  
+[![Build Status](https://github.com/ahmedmelhady7/dirfy/actions/workflows/ruby.yml/badge.svg)](https://github.com/ahmedmelhady7/dirfy/actions)
+[![Gem Version](https://badge.fury.io/rb/dirfy.svg)](https://badge.fury.io/rb/dirfy)
+[![License](https://img.shields.io/github/license/ahmedmelhady7/dirfy.svg)](https://github.com/ahmedmelhady7/dirfy/blob/main/LICENSE)
+[![Ruby ≥2.6](https://img.shields.io/badge/ruby-%3E%3D2.6-blue.svg)](https://www.ruby-lang.org/)
+[![Issues](https://img.shields.io/github/issues/ahmedmelhady7/dirfy.svg)](https://github.com/ahmedmelhady7/dirfy/issues)
 
 > **Instantly scaffold directory & file structures from any ASCII/Unicode “tree” diagram** 🚀
 
@@ -14,8 +14,8 @@
 
 Modern AI code generators (ChatGPT, Copilot, etc.) excel at producing code snippets—but often describe project layouts as ASCII or Unicode “tree” diagrams. Manually translating those diagrams into a real folder/file structure is:
 
-- **Time-consuming & error-prone** when projects are large or deeply nested  
-- **Tedious** to type out dozens or hundreds of `mkdir -p` / `touch` commands  
+- **Time-consuming & error-prone** when projects are large or deeply nested
+- **Tedious** to type out dozens or hundreds of `mkdir -p` / `touch` commands
 - **Prone to typos** and forgotten directories
 
 **Dirfy** solves this by automating the entire process: feed it any `tree` diagram (text or file), and it will parse and create the exact structure—no matter how big—within seconds.
@@ -24,13 +24,13 @@ Modern AI code generators (ChatGPT, Copilot, etc.) excel at producing code snipp
 
 ## ✨ Features
 
-- **Parse ASCII & Unicode** tree diagrams  
-- **Dry-run mode** (`-d`) to preview changes without writing  
-- **Verbose logging** (`-v`) for full action reports  
-- **Custom indent** support (`-i N`) for non-standard tree outputs  
-- **Path prefixing** (`-p DIR/`) to scaffold under any base folder  
-- **Live progress bar** and clear success/failure summary  
-- **Zero external dependencies** (pure Ruby ≥2.6)  
+- **Parse ASCII & Unicode** tree diagrams
+- **Dry-run mode** (`-d`) to preview changes without writing
+- **Verbose logging** (`-v`) for full action reports
+- **Custom indent** support (`-i N`) for non-standard tree outputs
+- **Path prefixing** (`-p DIR/`) to scaffold under any base folder
+- **Live progress bar** and clear success/failure summary
+- **Zero external dependencies** (pure Ruby ≥2.6)
 
 ---
 
