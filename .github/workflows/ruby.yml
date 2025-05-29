@@ -21,6 +21,7 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+          bundler-version: 2.4.13   # ensure Bundler 2.x works on 2.7
 
       - name: Install dependencies
         run: bundle install --jobs 4 --retry 3
