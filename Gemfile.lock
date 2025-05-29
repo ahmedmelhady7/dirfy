@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dirfy (0.1.0)
+    dirfy (0.1.4)
 
 GEM
   remote: https://rubygems.org/
