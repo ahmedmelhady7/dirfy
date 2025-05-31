@@ -44,11 +44,12 @@ module Dirfy
       items.each_with_index.map do |path, i|
         is_dir = directory?(names[i], i, depths)
         is_dir ? (path.end_with?("/") ? path : "#{path}/") : path
-      private
-  
+      end
+
+    private
+
       def directory?(name, index, depths)
         name.end_with?("/") || (index < depths.size - 1 && depths[index + 1] > depths[index])
       end
-    end
   end
 end
