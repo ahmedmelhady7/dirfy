@@ -1,0 +1,38 @@
+# Ignore bundler config
+/.bundle/
+
+# Ignore Ruby gem packages
+*.gem
+
+# Ignore generated gem files
+/.yardoc/
+/_yardoc/
+/doc/
+
+# Ignore built packages
+/pkg/
+
+# Ignore coverage data
+/coverage/
+/spec/reports/
+/test/tmp/
+
+# Ignore logs and temp files
+/log/**/*.log
+/tmp/
+/.sass-cache/
+/.byebug_history
+
+# Ignore gem installation directories
+/vendor/bundle/
+/.bundle/
+
+# Ignore RDoc files
+/rdoc/
+
+# Ignore editor/project files
+*.swp
+*~
+.DS_Store
+.idea/
+.vscode/
