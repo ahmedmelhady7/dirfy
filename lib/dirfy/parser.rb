@@ -45,11 +45,12 @@ module Dirfy
         is_dir = directory?(names[i], i, depths)
         is_dir ? (path.end_with?("/") ? path : "#{path}/") : path
       end
+    end
 
-    private
+  private
 
-      def directory?(name, index, depths)
-        name.end_with?("/") || (index < depths.size - 1 && depths[index + 1] > depths[index])
-      end
+    def directory?(name, index, depths)
+      name.end_with?("/") || (index < depths.size - 1 && depths[index + 1] > depths[index])
+    end
   end
 end
