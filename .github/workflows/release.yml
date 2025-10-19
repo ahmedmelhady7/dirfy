@@ -6,7 +6,7 @@ on:
       - 'v*.*.*'        # e.g. v1.2.3
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,23 +21,38 @@ jobs:
       - name: Install dependencies
         run: bundle install
 
+      - name: Run tests
+        run: bundle exec rake
+
       - name: Build gem
         run: |
           VERSION=$(ruby -e "require './lib/dirfy/version'; puts Dirfy::VERSION")
           gem build dirfy.gemspec
 
-      - name: Configure RubyGems API key
-        env:
-          RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
-        run: |
-          mkdir -p ~/.gem
-          cat << EOF > ~/.gem/credentials
-          ---
-          :rubygems_api_key: ${RUBYGEMS_API_KEY}
-          EOF
-          chmod 0600 ~/.gem/credentials
+      - name: Upload gem as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: gem-package
+          path: "*.gem"
 
-      - name: Push to RubyGems
-        run: |
-          VERSION=$(ruby -e "require './lib/dirfy/version'; puts Dirfy::VERSION")
-          gem push "dirfy-${VERSION}.gem"
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
+          body: |
+            ## Release ${{ github.ref_name }}
+            
+            This is an automated release. The gem has been built and is available as an artifact.
+            
+            **To publish to RubyGems:**
+            1. Download the gem from this release
+            2. Run: `gem push dirfy-*.gem`
+            3. Complete 2FA authentication
+            
+            **Changes:** See commit history for details.
+          draft: false
+          prerelease: false
