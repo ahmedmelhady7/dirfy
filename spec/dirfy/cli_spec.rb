@@ -73,4 +73,48 @@ RSpec.describe "dirfy CLI" do
       expect(wait.value.exitstatus).to eq(0)
     end
   end
+
+  describe "--validate flag" do
+    it "validates tree syntax from stdin and exits with 0" do
+      Open3.popen3("ruby bin/dirfy --validate") do |stdin, stdout, stderr, wait|
+        stdin.puts(tree)
+        stdin.close
+        out = stdout.read + stderr.read
+        expect(out).to include("✅ Tree syntax is valid (4 items detected)")
+        expect(wait.value.exitstatus).to eq(0)
+      end
+    end
+
+    it "validates tree syntax from file and exits with 0" do
+      file = Tempfile.new("tree")
+      file.write(tree)
+      file.close
+      Open3.popen3("ruby bin/dirfy --validate #{file.path}") do |_, stdout, _, wait|
+        output = stdout.read
+        expect(output).to include("✅ Tree syntax is valid (4 items detected)")
+        expect(wait.value.exitstatus).to eq(0)
+      end
+    end
+
+    it "validates and does not prompt for confirmation" do
+      Open3.popen3("ruby bin/dirfy --validate") do |stdin, stdout, stderr, wait|
+        stdin.puts(tree)
+        stdin.close
+        out = stdout.read + stderr.read
+        expect(out).not_to include("Proceed?")
+        expect(out).to include("✅ Tree syntax is valid")
+        expect(wait.value.exitstatus).to eq(0)
+      end
+    end
+
+    it "validates tree with prefix option" do
+      Open3.popen3("ruby bin/dirfy --validate --prefix=mydir") do |stdin, stdout, _, wait|
+        stdin.puts("a.txt")
+        stdin.close
+        output = stdout.read
+        expect(output).to include("✅ Tree syntax is valid (1 items detected)")
+        expect(wait.value.exitstatus).to eq(0)
+      end
+    end
+  end
 end
