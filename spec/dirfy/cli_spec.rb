@@ -53,4 +53,20 @@ RSpec.describe "dirfy CLI" do
     expect(output).to include("--help")
     expect($?.exitstatus).to eq(0)
   end
+
+  it "shows version with --version flag" do
+    Open3.popen3("ruby bin/dirfy --version") do |_, stdout, _, wait|
+      output = stdout.read
+      expect(output).to match(/^dirfy \d+\.\d+\.\d+$/)
+      expect(wait.value.exitstatus).to eq(0)
+    end
+  end
+
+  it "shows version with -V flag" do
+    Open3.popen3("ruby bin/dirfy -V") do |_, stdout, _, wait|
+      output = stdout.read
+      expect(output).to match(/^dirfy \d+\.\d+\.\d+$/)
+      expect(wait.value.exitstatus).to eq(0)
+    end
+  end
 end
