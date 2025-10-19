@@ -45,4 +45,12 @@ RSpec.describe "dirfy CLI" do
       expect(stdout.read).to include("Detected 4 items")
     end
   end
+
+  it "shows help when run without arguments in a terminal" do
+    # Using script to simulate a pseudo-terminal (tty)
+    output = `echo "" | script -q -c "ruby bin/dirfy" /dev/null 2>&1`
+    expect(output).to include("Usage: dirfy [options] [treefile]")
+    expect(output).to include("--help")
+    expect($?.exitstatus).to eq(0)
+  end
 end
