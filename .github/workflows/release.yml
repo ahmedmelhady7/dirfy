@@ -26,12 +26,18 @@ jobs:
           VERSION=$(ruby -e "require './lib/dirfy/version'; puts Dirfy::VERSION")
           gem build dirfy.gemspec
 
-      - name: Push to RubyGems
+      - name: Configure RubyGems API key
         env:
           RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
         run: |
           mkdir -p ~/.gem
-          echo ":rubygems_api_key: ${RUBYGEMS_API_KEY}" > ~/.gem/credentials
+          cat << EOF > ~/.gem/credentials
+          ---
+          :rubygems_api_key: ${RUBYGEMS_API_KEY}
+          EOF
           chmod 0600 ~/.gem/credentials
+
+      - name: Push to RubyGems
+        run: |
           VERSION=$(ruby -e "require './lib/dirfy/version'; puts Dirfy::VERSION")
           gem push "dirfy-${VERSION}.gem"
