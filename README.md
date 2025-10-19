@@ -129,7 +129,76 @@ Happy scaffolding! 🚀
 
 ---
 
-## 📝 License
+## � Release Process
+
+This section documents the release process for maintainers.
+
+### Prerequisites
+
+- Push access to the repository
+- RubyGems account with push access to the `dirfy` gem
+- 2FA enabled on RubyGems account
+
+### Release Steps
+
+1. **Run tests and ensure clean state**
+   ```bash
+   bundle exec rake
+   git status  # should be clean
+   ```
+
+2. **Update version**
+   ```bash
+   # Edit lib/dirfy/version.rb
+   vim lib/dirfy/version.rb
+   ```
+
+3. **Commit version bump**
+   ```bash
+   git add lib/dirfy/version.rb Gemfile.lock
+   git commit -m "chore: bump version to vX.Y.Z"
+   ```
+
+4. **Create and push tag**
+   ```bash
+   git tag vX.Y.Z
+   git push origin main
+   git push origin vX.Y.Z
+   ```
+
+5. **Build and publish gem**
+   ```bash
+   rake build
+   gem push pkg/dirfy-X.Y.Z.gem
+   # Follow 2FA authentication flow
+   ```
+
+6. **Create GitHub release**
+   ```bash
+   gh release create vX.Y.Z pkg/dirfy-X.Y.Z.gem \
+     --title "vX.Y.Z" \
+     --notes "Release notes here"
+   ```
+
+### Automated Release (Helper Script)
+
+Use the provided release script for semi-automated releases:
+
+```bash
+./scripts/release.sh patch  # for patch version (0.0.X)
+./scripts/release.sh minor  # for minor version (0.X.0)  
+./scripts/release.sh major  # for major version (X.0.0)
+```
+
+### Troubleshooting
+
+- **2FA Authentication**: RubyGems requires 2FA. Use WebAuthn or `--otp` flag
+- **Workflow scope**: GitHub token needs `workflow` scope to modify Actions
+- **Permission denied**: Ensure you have push access to both repo and RubyGems
+
+---
+
+## �📝 License
 
 MIT © [Ahmed Elhady](https://github.com/ahmedmelhady7)
 
