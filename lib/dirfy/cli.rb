@@ -12,7 +12,8 @@ module Dirfy
         dry_run: false,
         verbose: false,
         indent: 4,
-        prefix: ""
+        prefix: "",
+        validate: false
       }
 
       parser = OptionParser.new do |opts|
@@ -24,6 +25,10 @@ module Dirfy
 
         opts.on("-v", "--verbose", "Log each action") do
           options[:verbose] = true
+        end
+
+        opts.on("--validate", "Check tree syntax without creating files") do
+          options[:validate] = true
         end
 
         opts.on("-iN", "--indent=N", Integer, "Spaces per level (default 4)") do |n|
@@ -59,6 +64,12 @@ module Dirfy
 
       items = Parser.new(indent: options[:indent]).parse(lines)
       items.map! { |p| options[:prefix] + p }
+
+      # Validation mode: just check syntax and exit
+      if options[:validate]
+        puts "✅ Tree syntax is valid (#{items.size} items detected)"
+        exit(0)
+      end
 
       puts "🔍 Detected #{items.size} items to create."
       unless options[:dry_run]
