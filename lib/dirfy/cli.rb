@@ -44,8 +44,11 @@ module Dirfy
       lines =
         if argv[0] && File.file?(argv[0])
           File.readlines(argv[0]).map(&:chomp)
-        else
+        elsif !STDIN.tty?
           STDIN.read.lines.map(&:chomp)
+        else
+          puts parser.to_s
+          exit(0)
         end
 
       items = Parser.new(indent: options[:indent]).parse(lines)
