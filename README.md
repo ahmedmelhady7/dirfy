@@ -205,3 +205,46 @@ MIT © [Ahmed Elhady](https://github.com/ahmedmelhady7)
 ---
 
 > Built with ❤️ to make AI-generated project scaffolding a breeze.
+
+---
+
+## Release steps
+
+This project supports both local and GitHub Actions-based releases. The workflow `/.github/workflows/release.yml` will publish a built gem when a `vX.Y.Z` tag is pushed, but the runner needs a valid `RUBYGEMS_API_KEY` secret and the repository maintainer must ensure the CI token can run workflow jobs that modify releases.
+
+Local release (recommended when you need to provide 2FA interactively):
+
+1. Bump the version in `lib/dirfy/version.rb` (e.g. `0.3.0`).
+2. Build the gem locally:
+
+```bash
+bundle install
+bundle exec rake build
+```
+
+3. Create a git tag and push it (this will trigger CI if configured):
+
+```bash
+git add -A
+git commit -m "Release vX.Y.Z"
+git tag vX.Y.Z
+git push origin main --follow-tags
+```
+
+4. Publish the gem to RubyGems interactively (you may need to complete 2FA):
+
+```bash
+gem push pkg/dirfy-X.Y.Z.gem
+```
+
+CI-based release (recommended for automated releases):
+
+1. Ensure the repository has the secret `RUBYGEMS_API_KEY` configured in GitHub Settings → Secrets.
+2. Ensure the repository's token has appropriate permissions to run workflow jobs that create or update releases (the token needs `workflow` scope to update workflows).
+3. Push a tag `vX.Y.Z` to the repo. The `release.yml` workflow will build and push the gem.
+
+Notes and troubleshooting
+
+- If you see an error like `Invalid credentials (401)` during `gem push` in CI, double-check that `RUBYGEMS_API_KEY` is correctly set and that the CI runner writes it to `~/.gem/credentials` before pushing.
+- If GitHub rejects pushes that modify workflow files, ensure the token used has `workflow` scope or make the workflow change via the GitHub web UI.
+- For local gem publishing, if 2FA is enabled you will be prompted to authenticate in your browser or provide an OTP.

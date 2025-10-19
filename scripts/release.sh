@@ -1,3 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Simple release helper for Dirfy
+# Usage: ./scripts/release.sh X.Y.Z
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 <version>"
+  exit 2
+fi
+
+VERSION="$1"
+
+echo "Bumping version to ${VERSION}"
+perl -0777 -pe "s/(VERSION = \")([0-9.]+)(\")/\1${VERSION}\3/s" -i lib/dirfy/version.rb
+
+echo "Installing dependencies and running tests"
+bundle install
+bundle exec rake
+
+echo "Building gem"
+bundle exec rake build
+
+echo "Committing and tagging"
+git add lib/dirfy/version.rb
+git commit -m "chore: release v${VERSION}" || true
+git tag "v${VERSION}"
+
+echo "Push tags to origin (this will trigger CI if configured)"
+git push origin main --follow-tags
+
+echo "Gem built at pkg/dirfy-${VERSION}.gem"
+echo "To publish the gem interactively (handles 2FA), run:" \
+     && echo "  gem push pkg/dirfy-${VERSION}.gem"
+
+echo "Done"
 #!/bin/bash#!/usr/bin/env bash
 
 # Release helper script for dirfy gem# Release script for dirfy gem
