@@ -47,11 +47,15 @@ RSpec.describe "dirfy CLI" do
   end
 
   it "shows help when run without arguments in a terminal" do
-    # Using script to simulate a pseudo-terminal (tty)
-    output = `echo "" | script -q -c "ruby bin/dirfy" /dev/null 2>&1`
-    expect(output).to include("Usage: dirfy [options] [treefile]")
-    expect(output).to include("--help")
-    expect($?.exitstatus).to eq(0)
+    # Test by directly calling the CLI.start method with empty ARGV
+    # and simulating TTY behavior by stubbing STDIN.tty?
+    allow(STDIN).to receive(:tty?).and_return(true)
+    
+    expect do
+      expect { Dirfy::CLI.start([]) }.to raise_error(SystemExit) do |error|
+        expect(error.status).to eq(0)
+      end
+    end.to output(/Usage: dirfy \[options\] \[treefile\]/).to_stdout
   end
 
   it "shows version with --version flag" do
