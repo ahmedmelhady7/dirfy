@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require "optparse"
+require_relative "version"
 require_relative "parser"
 require_relative "io"
 
@@ -31,6 +32,11 @@ module Dirfy
 
         opts.on("-pDIR", "--prefix=DIR", "Prepend DIR/ to every path") do |dir|
           options[:prefix] = dir.chomp("/") + "/"
+        end
+
+        opts.on("-V", "--version", "Show version") do
+          puts "dirfy #{Dirfy::VERSION}"
+          exit
         end
 
         opts.on("-h", "--help", "Show this help") do
