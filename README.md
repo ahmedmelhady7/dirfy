@@ -129,72 +129,85 @@ Happy scaffolding! 🚀
 
 ---
 
-## � Release Process
+## 🚀 Release Process
 
-This section documents the release process for maintainers.
+This project uses a **semi-automated release process** that balances automation with security. GitHub Actions handles building and testing, while gem publishing is done manually to support 2FA authentication.
 
 ### Prerequisites
 
 - Push access to the repository
 - RubyGems account with push access to the `dirfy` gem
-- 2FA enabled on RubyGems account
+- 2FA enabled on RubyGems account (recommended for security)
+
+### Semi-Automated Release Process
+
+**What's automated:**
+- ✅ Gem building when you push tags
+- ✅ Running tests before release
+- ✅ GitHub release creation (optional)
+
+**What requires manual action:**
+- 🔐 Gem publishing to RubyGems (due to 2FA requirements)
 
 ### Release Steps
 
-1. **Run tests and ensure clean state**
+1. **Update version and run tests**
    ```bash
-   bundle exec rake
-   git status  # should be clean
-   ```
-
-2. **Update version**
-   ```bash
-   # Edit lib/dirfy/version.rb
+   # Edit lib/dirfy/version.rb to bump version
    vim lib/dirfy/version.rb
+   bundle install  # updates Gemfile.lock
+   bundle exec rake  # run tests
    ```
 
-3. **Commit version bump**
+2. **Commit and tag**
    ```bash
    git add lib/dirfy/version.rb Gemfile.lock
    git commit -m "chore: bump version to vX.Y.Z"
-   ```
-
-4. **Create and push tag**
-   ```bash
    git tag vX.Y.Z
-   git push origin main
-   git push origin vX.Y.Z
+   git push origin main --follow-tags
    ```
 
-5. **Build and publish gem**
+3. **Manual gem publishing (with 2FA)**
    ```bash
    rake build
    gem push pkg/dirfy-X.Y.Z.gem
-   # Follow 2FA authentication flow
+   # Complete 2FA authentication in browser
    ```
 
-6. **Create GitHub release**
+4. **Optional: Create GitHub release**
    ```bash
    gh release create vX.Y.Z pkg/dirfy-X.Y.Z.gem \
      --title "vX.Y.Z" \
      --notes "Release notes here"
    ```
 
-### Automated Release (Helper Script)
+### Using the Release Helper Script
 
-Use the provided release script for semi-automated releases:
+For even easier releases, use the provided script:
 
 ```bash
-./scripts/release.sh patch  # for patch version (0.0.X)
-./scripts/release.sh minor  # for minor version (0.X.0)  
-./scripts/release.sh major  # for major version (X.0.0)
+./scripts/release.sh X.Y.Z
 ```
+
+This script will:
+- Update the version in `lib/dirfy/version.rb`
+- Run tests to ensure everything works
+- Build the gem locally
+- Commit changes and create/push the tag
+- Prompt you to manually publish with `gem push` (for 2FA)
+
+### Why Semi-Automated?
+
+- **Security**: Maintains 2FA protection on your RubyGems account
+- **Reliability**: Manual gem push ensures you can handle 2FA interactively
+- **Automation**: CI still handles building, testing, and GitHub releases
+- **Simplicity**: No need to manage CI-specific RubyGems accounts or tokens
 
 ### Troubleshooting
 
-- **2FA Authentication**: RubyGems requires 2FA. Use WebAuthn or `--otp` flag
-- **Workflow scope**: GitHub token needs `workflow` scope to modify Actions
-- **Permission denied**: Ensure you have push access to both repo and RubyGems
+- **2FA Authentication**: Follow the WebAuthn flow in your browser or use `--otp` flag
+- **Build failures**: CI will automatically build when you push tags - check Actions tab for issues
+- **Permission denied**: Ensure you have push access to both the repository and RubyGems gem
 
 ---
 
@@ -206,45 +219,4 @@ MIT © [Ahmed Elhady](https://github.com/ahmedmelhady7)
 
 > Built with ❤️ to make AI-generated project scaffolding a breeze.
 
----
 
-## Release steps
-
-This project supports both local and GitHub Actions-based releases. The workflow `/.github/workflows/release.yml` will publish a built gem when a `vX.Y.Z` tag is pushed, but the runner needs a valid `RUBYGEMS_API_KEY` secret and the repository maintainer must ensure the CI token can run workflow jobs that modify releases.
-
-Local release (recommended when you need to provide 2FA interactively):
-
-1. Bump the version in `lib/dirfy/version.rb` (e.g. `0.3.0`).
-2. Build the gem locally:
-
-```bash
-bundle install
-bundle exec rake build
-```
-
-3. Create a git tag and push it (this will trigger CI if configured):
-
-```bash
-git add -A
-git commit -m "Release vX.Y.Z"
-git tag vX.Y.Z
-git push origin main --follow-tags
-```
-
-4. Publish the gem to RubyGems interactively (you may need to complete 2FA):
-
-```bash
-gem push pkg/dirfy-X.Y.Z.gem
-```
-
-CI-based release (recommended for automated releases):
-
-1. Ensure the repository has the secret `RUBYGEMS_API_KEY` configured in GitHub Settings → Secrets.
-2. Ensure the repository's token has appropriate permissions to run workflow jobs that create or update releases (the token needs `workflow` scope to update workflows).
-3. Push a tag `vX.Y.Z` to the repo. The `release.yml` workflow will build and push the gem.
-
-Notes and troubleshooting
-
-- If you see an error like `Invalid credentials (401)` during `gem push` in CI, double-check that `RUBYGEMS_API_KEY` is correctly set and that the CI runner writes it to `~/.gem/credentials` before pushing.
-- If GitHub rejects pushes that modify workflow files, ensure the token used has `workflow` scope or make the workflow change via the GitHub web UI.
-- For local gem publishing, if 2FA is enabled you will be prompted to authenticate in your browser or provide an OTP.
