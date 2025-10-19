@@ -211,7 +211,7 @@ This script will:
 
 ---
 
-## �📝 License
+## 📝 License
 
 MIT © [Ahmed Elhady](https://github.com/ahmedmelhady7)
 
