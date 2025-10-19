@@ -45,4 +45,22 @@ RSpec.describe "dirfy CLI" do
       expect(stdout.read).to include("Detected 4 items")
     end
   end
+
+  it "shows version with --version flag" do
+    Open3.popen3("ruby bin/dirfy --version") do |_, stdout, _, wait|
+      output = stdout.read
+      expect(output).to match(/dirfy \d+\.\d+\.\d+/)
+      expect(output).to include(Dirfy::VERSION)
+      expect(wait.value.exitstatus).to eq(0)
+    end
+  end
+
+  it "shows version with -V flag" do
+    Open3.popen3("ruby bin/dirfy -V") do |_, stdout, _, wait|
+      output = stdout.read
+      expect(output).to match(/dirfy \d+\.\d+\.\d+/)
+      expect(output).to include(Dirfy::VERSION)
+      expect(wait.value.exitstatus).to eq(0)
+    end
+  end
 end
