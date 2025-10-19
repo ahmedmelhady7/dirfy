@@ -23,7 +23,9 @@ jobs:
           bundler-cache: true
 
       - name: Install dependencies
-        run: bundle install --jobs 4 --retry 3
+        run: |
+          bundle config set frozen false
+          bundle install --jobs 4 --retry 3
 
       - name: Run specs
         run: bundle exec rake spec
