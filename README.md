@@ -6,7 +6,18 @@
 [![Ruby ≥2.7](https://img.shields.io/badge/ruby-%3E%3D2.7-blue.svg)](https://www.ruby-lang.org/)  
 [![Issues](https://img.shields.io/github/issues/ahmedmelhady7/dirfy.svg)](https://github.com/ahmedmelhady7/dirfy/issues)  
 
-> **Instantly scaffold directory & file structures from any ASCII/Unicode “tree” diagram** 🚀
+> **Instantly scaffold directory & file structures from any ASCII/Unicode "tree" diagram** 🚀
+
+## 📚 Table of Contents
+
+- [📋 Problem Statement](#-problem-statement)
+- [✨ Features](#-features)
+- [🚀 Installation](#-installation)
+- [💡 Usage](#-usage)
+- [🛠️ Examples](#️-examples)
+- [🤝 Contributing](#-contributing)
+- [🚀 Release Process](#-release-process)
+- [📝 License](#-license)
 
 ---
 
