@@ -119,6 +119,19 @@ DRY-RUN File:  my_app/README.md
 
 Remove `-d` to actually scaffold.
 
+### 📁 Sample Files
+
+To test Dirfy quickly without creating your own tree files, check out the [examples/](./examples/) directory. It contains several sample tree files you can use:
+
+- `examples/simple.tree` — A basic Ruby project structure
+- `examples/web_project.tree` — A front-end web project layout
+- `examples/complex.tree` — Deeply nested directories with mixed file types
+- `examples/unicode.tree` — Non-ASCII filenames and Unicode handling tests
+
+```bash
+dirfy -d examples/web_project.tree
+```
+
 ---
 
 ## 🤝 Contributing

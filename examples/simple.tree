@@ -1,0 +1,6 @@
+my_app/
+├── lib/
+│   └── my_app.rb
+├── spec/
+│   └── my_app_spec.rb
+└── README.md
