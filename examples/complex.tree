@@ -1,0 +1,24 @@
+project_root/
+├── config/
+│   ├── database.yml
+│   └── settings.json
+├── src/
+│   ├── core/
+│   │   ├── engine/
+│   │   │   ├── driver.py
+│   │   │   └── utils/
+│   │   │       └── helpers.py
+│   │   └── models/
+│   │       └── base.rb
+│   └── views/
+│       ├── layout.hbs
+│       └── partials/
+│           ├── header.html.erb
+│           └── footer.html.erb
+├── tests/
+│   ├── unit/
+│   │   └── test_core.rs
+│   └── integration/
+│       └── api_test.sh
+└── docs/
+    └── README.md

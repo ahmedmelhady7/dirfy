@@ -1,0 +1,14 @@
+web_project/
+├── src/
+│   ├── components/
+│   │   ├── Header.js
+│   │   └── Footer.js
+│   ├── pages/
+│   │   ├── index.js
+│   │   └── about.js
+│   └── styles/
+│       └── main.css
+├── public/
+│   └── index.html
+├── package.json
+└── README.md
