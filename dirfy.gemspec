@@ -17,4 +17,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "rspec"
+  spec.add_development_dependency "simplecov", "~> 0.22"
+  spec.add_development_dependency "bundler-audit", "~> 0.9"
 end
